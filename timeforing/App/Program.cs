@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using App.Infrastructure.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<TimekeepingContext>(options =>
+options.UseSqlite($"Data Source={Path.Combine("Infrastructure", "Data", "dataSQLite.db")}"));
 
 var app = builder.Build();
 
