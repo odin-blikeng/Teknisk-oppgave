@@ -11,6 +11,19 @@ options.UseSqlite($"Data Source={Path.Combine("Infrastructure", "Data", "dataSQL
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+   if (app.Environment.IsDevelopment()){
+    var db = scope.ServiceProvider.GetRequiredService<TimekeepingContext>();
+     if (!db.Projects.Any())
+        {
+            new DatabaseSeed(db).Seed();
+        }
+}
+}
+
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
