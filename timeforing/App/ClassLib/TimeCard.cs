@@ -1,6 +1,8 @@
-using System.Runtime.Intrinsics.X86;
+using Microsoft.EntityFrameworkCore;
+
 namespace App.ClassLib
 {
+    [Owned]
     public class TimeCard
     {
         public TimeCard( Guid driverId, double hours )

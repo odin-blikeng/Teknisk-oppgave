@@ -5,7 +5,7 @@ public class Project
     {
         Title = title;
     }
-    // private Project() { }
+    //  private Project() { }
 
     public Guid Id { get; protected set; } = Guid.NewGuid();
     public string Title { get; set;}
