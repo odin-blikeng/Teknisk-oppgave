@@ -29,7 +29,7 @@ namespace App.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Drivers");
+                    b.ToTable("Drivers", (string)null);
                 });
 
             modelBuilder.Entity("App.ClassLib.Project", b =>
@@ -44,12 +44,12 @@ namespace App.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("App.ClassLib.Project", b =>
                 {
-                    b.OwnsMany("App.ClassLib.TimeCard", "Hours", b1 =>
+                    b.OwnsMany("App.ClassLib.Project.Hours#App.ClassLib.TimeCard", "Hours", b1 =>
                         {
                             b1.Property<Guid>("ProjectId")
                                 .HasColumnType("TEXT");
@@ -69,7 +69,7 @@ namespace App.Migrations
 
                             b1.HasKey("ProjectId", "Id");
 
-                            b1.ToTable("TimeCard");
+                            b1.ToTable("TimeCard", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ProjectId");
