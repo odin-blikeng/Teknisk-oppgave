@@ -12,4 +12,8 @@ public class Project
 
     // TimeSpan TotalHours { get; set; }
     public List<TimeCard> Hours{ get; set; } =new List<TimeCard>();
+    public void AddHours(Guid driverId, DateTime date, double hours)
+    {
+        Hours.Add(new TimeCard(driverId, hours));
+    }
 }
