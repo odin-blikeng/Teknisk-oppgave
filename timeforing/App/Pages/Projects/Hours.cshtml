@@ -1,0 +1,27 @@
+@page
+@model HoursModel
+@{
+    ViewData["Title"] = "Projects Overview";
+}
+
+<div class="text-center">
+    <table>
+        <thead>
+					<tr>
+
+                        <th scope="col">Driver</th>
+						<th scope="col">Hours</th>
+						<th scope="col" class="text-right">Date Of Entry</th>
+
+                    </tr>
+        </thead>
+ @foreach(var hour in Model.Project.Hours){
+        <tr>
+            <td>@hour.DriverId</td>
+            <td>@hour.Hours</td>
+            <td>@hour.Date.LocalDateTime</td>
+        </tr>
+    }
+    </table>
+ 
+</div>
