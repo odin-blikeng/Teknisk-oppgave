@@ -1,6 +1,32 @@
 html {
   font-size: 14px;
 }
+.table-fit {
+    width: 100% !important;
+    height: 100%;
+    font-size: 5.4vmin;
+    table-layout: auto !important;
+}
+.table-fit input{
+    width: 100%;
+}
+.table-fit td {
+    font-size: smaller;
+}
+
+.table-fit-small {
+    width: 100% !important;
+    height: 100%;
+    font-size: 3.9vmin;
+    table-layout: auto !important;
+}
+.table-fit-small td {
+    font-size: smaller;
+}
+
+.extrapadding-right{
+    padding-right: 2.5em;
+}
 
 @media (min-width: 768px) {
   html {

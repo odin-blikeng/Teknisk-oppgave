@@ -1,19 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using App.ClassLib;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
 namespace App.Pages;
 
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
+    private readonly IProjectService ProjectService;
 
-    public IndexModel(ILogger<IndexModel> logger)
+    public IndexModel(ILogger<IndexModel> logger, IProjectService projectService)
     {
+        ProjectService = projectService;
         _logger = logger;
     }
 
-    public void OnGet()
-    {
 
+    public Project[] Projects { get; set; } = null!;
+
+    public async Task<IActionResult> OnGetAsync()
+    {
+        Projects = await ProjectService.GetAllAsync();
+        return Page();
     }
+
+    public IActionResult OnPostGoToProject(string Id){
+        HttpContext.Session.SetString("projectId", Id);
+        return RedirectToPage("Projects/Hours");
+    }
+
 }

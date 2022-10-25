@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using App.ClassLib;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,8 +14,10 @@ public class HoursModel : PageModel
     }
 
     [BindProperty]
+    [Display(Name = "Driver ID")]
     public string? DriverId { get; set; }
     [BindProperty]
+    [Display(Name = "Number of Hours")]
     public double? NumberOfHours { get; set; }
     public Project Project { get; set; } = null!;
 
@@ -30,8 +33,8 @@ public class HoursModel : PageModel
     }
     public async Task<IActionResult> OnPostAsync()
     {
-        var str = HttpContext.Session.GetString("projectId");
-		if (str == null) throw new Exception("Project not found");
+        var str =  HttpContext.Session.GetString("projectId");
+		if (str == null) throw new Exception("id not found");
 		if (Guid.TryParse(str, out var projectId))
             {
             Project = await ProjectService.GetOneAsync(projectId);
