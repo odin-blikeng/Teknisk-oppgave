@@ -29,6 +29,7 @@ public class HoursModel : PageModel
             {
             Project = await ProjectService.GetOneAsync(projectId);
 		}
+        HttpContext.Session.SetString("projectId", projectId.ToString());
         return Page();
     }
     public async Task<IActionResult> OnPostAsync()
