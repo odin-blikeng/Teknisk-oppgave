@@ -1,5 +1,5 @@
 using App.ClassLib;
-using App.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace App.Pages.Projects;
@@ -15,9 +15,15 @@ public class ProjectIndexModel : PageModel
 
     public Project[] Projects { get; set; } = null!;
 
-    public void OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
-        Projects = ProjectService.GetAllAsync().Result.ToArray();
+        Projects = await ProjectService.GetAllAsync();
+        return Page();
+    }
+
+    public IActionResult OnPostGoToProject(string Id){
+        HttpContext.Session.SetString("projectId", Id);
+        return RedirectToPage("Hours");
     }
 
 }

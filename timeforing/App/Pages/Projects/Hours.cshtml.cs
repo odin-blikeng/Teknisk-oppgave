@@ -1,5 +1,4 @@
 using App.ClassLib;
-using App.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace App.Pages.Projects;
@@ -12,12 +11,15 @@ public class HoursModel : PageModel
         ProjectService = projectService;
     }
 
-
     public Project Project { get; set; } = null!;
 
-    public void OnGet(Guid projectId)
+    public void OnGet()
     {
-        Project = ProjectService.GetOneAsync(projectId).Result;
+        var str = HttpContext.Session.GetString("projectId");
+		if (str == null) throw new Exception("Project not found");
+		if (Guid.TryParse(str, out var projectId))
+            {
+            Project = ProjectService.GetOneAsync(projectId).Result;
+		}
     }
-
 }
