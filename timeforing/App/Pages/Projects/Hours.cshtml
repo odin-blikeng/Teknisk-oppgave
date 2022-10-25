@@ -4,7 +4,18 @@
     ViewData["Title"] = "Projects Overview";
 }
 
-<div class="text-center">
+<div>
+    <form method="post">
+        <div class="form-group">
+        <label asp-for="DriverName"></label>
+        <input asp-for="DriverName">
+        </div>
+        <div class="form-group">
+        <label asp-for="NumberOfHours"></label>
+        <input asp-for="NumberOfHours">
+        </div>
+        <input type="submit" value="Add Hours" />
+    </form>
     <table>
         <thead>
 					<tr>
