@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.ClassLib
 {
-    public class ProjectService
+    public class ProjectService : IProjectService
     {
         private TimekeepingContext Db;
 
@@ -12,7 +12,7 @@ namespace App.ClassLib
             Db = db;
         }
 
-        public async Task<Project> GetOneAsync( Guid projectId)
+        public async Task<Project> GetOneAsync(Guid projectId)
         {
             return await Db.Projects.Include(p => p.Hours).SingleOrDefaultAsync(p => p.Id == projectId) ?? throw new Exception("Project not found");
         }
