@@ -11,7 +11,8 @@ builder.Services.AddDbContext<TimekeepingContext>(options =>
 // options.UseSqlite($"Data Source={Path.Combine("Infrastructure", "Data", "dataSQLite.db")}"
 options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
-));
+)
+);
 
 builder.Services.AddDistributedMemoryCache();
 
