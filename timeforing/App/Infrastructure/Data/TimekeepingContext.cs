@@ -6,7 +6,6 @@ public class TimekeepingContext : DbContext
 {
     public TimekeepingContext(DbContextOptions options) : base(options) { }
     
-    public DbSet<User> Users { get; set; }
     public DbSet<Project> Projects { get; set; } =null!;
     public DbSet<Driver> Drivers {get; set;} = null!;
 

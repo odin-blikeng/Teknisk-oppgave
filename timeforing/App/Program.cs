@@ -8,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddDbContext<TimekeepingContext>(options =>
-options.UseSqlite($"Data Source={Path.Combine("Infrastructure", "Data", "dataSQLite.db")}"));
+// options.UseSqlite($"Data Source={Path.Combine("Infrastructure", "Data", "dataSQLite.db")}"
+options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+));
 
 builder.Services.AddDistributedMemoryCache();
 
