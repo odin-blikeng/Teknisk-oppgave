@@ -25,5 +25,12 @@ namespace App.ClassLib
             project.Hours.Add(timeCard);
             await Db.SaveChangesAsync();
         }
+        public async Task<string> CheckDriverCredentials(string name, string password)
+        {
+            var driver = await Db.Drivers.SingleOrDefaultAsync(d => d.Name == name);
+            if (driver == null) return "Driver not found";
+            if (!BCrypt.Net.BCrypt.Verify(driver.Password, password)) return "Incorrect password";
+            return driver.Id.ToString();
+        }
     }
 }
