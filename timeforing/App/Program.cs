@@ -18,7 +18,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -27,13 +27,11 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-   if (app.Environment.IsDevelopment()){
     var db = scope.ServiceProvider.GetRequiredService<TimekeepingContext>();
      if (!db.Projects.Any())
         {
             new DatabaseSeed(db).Seed();
         }
-}
 }
 
 
