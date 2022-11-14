@@ -14,9 +14,6 @@ public class HoursModel : PageModel
     }
 
     [BindProperty]
-    [Display(Name = "Driver ID")]
-    public string? DriverId { get; set; }
-    [BindProperty]
     [Display(Name = "Number of Hours")]
     public double? NumberOfHours { get; set; }
     public Project Project { get; set; } = null!;
@@ -24,26 +21,43 @@ public class HoursModel : PageModel
     public async Task<IActionResult> OnGet()
     {
         var str = HttpContext.Session.GetString("projectId");
-		if (str == null) throw new Exception("Project not found");
-		if (Guid.TryParse(str, out var projectId))
-            {
+		if (str == null) return  base.Content($"<h1>Project could not be found</h1>");
+        if (Guid.TryParse(str, out var projectId))
+        {
             Project = await ProjectService.GetOneAsync(projectId);
-		}
+        }
+        else
+        {
+            return base.Content($"<h1>Project could not be found</h1>");
+        }
+
         HttpContext.Session.SetString("projectId", projectId.ToString());
         return Page();
+
     }
+
     public async Task<IActionResult> OnPostAsync()
     {
+        // try{
         var str =  HttpContext.Session.GetString("projectId");
-		if (str == null) throw new Exception("id not found");
+		if (str == null) return  base.Content($"<h1>Project cookie has been deleted</h1>");;
 		if (Guid.TryParse(str, out var projectId))
             {
             Project = await ProjectService.GetOneAsync(projectId);
-		}
+		}else{
+            return base.Content($"what did you do to the projectid? Please dont play with the cookie.");
+        }
+        var driverId =  HttpContext.Session.GetString("driverId");
+		if (str == null) return  base.Content($"<h1>Project cookie has been deleted</h1>");;
+		if (Guid.TryParse(driverId, out var id))
+            {
+            if( NumberOfHours!=null){
+                await ProjectService.AddNewTimeCard(projectId, id, NumberOfHours.Value);
+            }
+		}else{
+            return base.Content($"<h1>Please dont play with the cookie</h1>");
+        }
 
-        if (DriverId == null || NumberOfHours == null) return Page();
-        Guid driverIdGuid = Guid.Parse(DriverId);
-        await ProjectService.AddNewTimeCard(Project.Id, driverIdGuid, NumberOfHours.Value);
-        return await OnGet();
+        return Page();
     }
-}
+    }
