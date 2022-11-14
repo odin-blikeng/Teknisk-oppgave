@@ -28,24 +28,23 @@ public class DatabaseSeed
     }
 
     private TimekeepingContext Context{get; init;}
-    private readonly List<string> ProjectList = new List<string> { "Project 1", "Project 2", "Project 3" };
-    private readonly List<string> DriverList = new List<string> { "Driver 1", "Driver 2", "Driver 3" };
-
+    private readonly List<string> ProjectList = new List<string> { "Nortura", "Circle K", "Sandnes Kommune" };
+    private readonly List<string> DriverList = new List<string> { "Kåre Jakobsen", "Jonas Torseth", "Even Lauritzen", "Ola Normann"};
+    private readonly List<string> PasswordList = new List<string> { "Ec64xn2XG%aB5dyR", "3K6&b8us^nIaXjVI", "!E^5^ymnNW8AL7AY", "qvLwJE9VjN3!F45m" };
     public void Seed()
     {
             foreach (var project in ProjectList)
             {
                 Context.Projects.Add(new Project(project));
             }
-            Context.SaveChanges();
 
-            foreach (var driver in DriverList)
+            foreach (var driver in DriverList.Select((e, i) => new { Value = e, Index = i }))
             {
-                Context.Drivers.Add(new Driver(driver));
+                Context.Drivers.Add(new Driver(driver.Value, PasswordList[driver.Index]));
             }
             Context.SaveChanges();
-
-            foreach(var project in Context.Projects)
+            
+            foreach(var project in Context.Projects.ToArray())
             {
                 project.AddHours(Context.Drivers.First().Id, 1.5);
                 project.AddHours(Context.Drivers.Skip(1).First().Id, 2.5);
