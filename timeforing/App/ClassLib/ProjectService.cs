@@ -29,8 +29,16 @@ namespace App.ClassLib
         {
             var driver = await Db.Drivers.SingleOrDefaultAsync(d => d.Name == name);
             if (driver == null) return "Driver not found";
-            if (!BCrypt.Net.BCrypt.Verify(driver.Password, password)) return "Incorrect password";
+            if (!BCrypt.Net.BCrypt.Verify(password, driver.Password)) return "Incorrect password";
             return driver.Id.ToString();
+        }
+        public async Task AddNewDriver(string name, string password)
+        {
+            Driver driver = new(name){
+                Password = BCrypt.Net.BCrypt.HashPassword(password)
+            };
+            await Db.Drivers.AddAsync(driver);
+            await Db.SaveChangesAsync();
         }
     }
 }

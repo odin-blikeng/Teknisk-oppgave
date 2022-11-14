@@ -9,5 +9,6 @@ namespace App.ClassLib
         Task<Project[]> GetAllAsync();
         Task<Project> GetOneAsync(Guid projectId);
         Task<string> CheckDriverCredentials(string name, string password);
+        Task AddNewDriver(string name, string password);
     }
 }

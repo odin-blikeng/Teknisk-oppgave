@@ -30,7 +30,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<TimekeepingContext>();
      if (!db.Projects.Any())
         {
-            new DatabaseSeed(db).Seed();
+            new DatabaseSeed(db).Seed(scope.ServiceProvider.GetRequiredService<IProjectService>());
         }
 }
 

@@ -31,7 +31,7 @@ public class DatabaseSeed
     private readonly List<string> ProjectList = new List<string> { "Nortura", "Circle K", "Sandnes Kommune" };
     private readonly List<string> DriverList = new List<string> { "Kåre Jakobsen", "Jonas Torseth", "Even Lauritzen", "Ola Normann"};
     private readonly List<string> PasswordList = new List<string> { "Ec64xn2XG%aB5dyR", "3K6&b8us^nIaXjVI", "!E^5^ymnNW8AL7AY", "qvLwJE9VjN3!F45m" };
-    public void Seed()
+    public void Seed(IProjectService service)
     {
             foreach (var project in ProjectList)
             {
@@ -40,10 +40,10 @@ public class DatabaseSeed
 
             foreach (var driver in DriverList.Select((e, i) => new { Value = e, Index = i }))
             {
-                Context.Drivers.Add(new Driver(driver.Value, PasswordList[driver.Index]));
+                service.AddNewDriver(driver.Value, PasswordList[driver.Index]);
             }
             Context.SaveChanges();
-            
+
             foreach(var project in Context.Projects.ToArray())
             {
                 project.AddHours(Context.Drivers.First().Id, 1.5);
