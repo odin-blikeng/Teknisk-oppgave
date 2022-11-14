@@ -1,4 +1,5 @@
-﻿using App.ClassLib;
+﻿using System.Net;
+using App.ClassLib;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace App.Pages;
@@ -20,7 +21,10 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         Projects = await ProjectService.GetAllAsync();
-        return Page();
+        
+        var driverId = HttpContext.Session.GetString("driverId");
+        if (driverId == null) return RedirectToPage("/Drivers/Login");
+        else return Page();
     }
 
     public IActionResult OnPostGoToProject(string Id){
