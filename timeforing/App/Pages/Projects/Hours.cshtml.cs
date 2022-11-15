@@ -21,14 +21,14 @@ public class HoursModel : PageModel
     public async Task<IActionResult> OnGet()
     {
         var str = HttpContext.Session.GetString("projectId");
-		if (str == null) return  base.Content($"<h1>Project could not be found</h1>");
+		if (str == null) return RedirectToPage("/Index");
         if (Guid.TryParse(str, out var projectId))
         {
             Project = await ProjectService.GetOneAsync(projectId);
         }
         else
         {
-            return base.Content($"<h1>Project could not be found</h1>");
+            return RedirectToPage("/Index");
         }
 
         HttpContext.Session.SetString("projectId", projectId.ToString());
@@ -40,22 +40,22 @@ public class HoursModel : PageModel
     {
         // try{
         var str =  HttpContext.Session.GetString("projectId");
-		if (str == null) return  base.Content($"<h1>Project cookie has been deleted</h1>");;
-		if (Guid.TryParse(str, out var projectId))
+        return RedirectToPage("/Index");
+        if (Guid.TryParse(str, out var projectId))
             {
             Project = await ProjectService.GetOneAsync(projectId);
 		}else{
-            return base.Content($"what did you do to the projectid? Please dont play with the cookie.");
+            return RedirectToPage("/Index");
         }
         var driverId =  HttpContext.Session.GetString("driverId");
-		if (str == null) return  base.Content($"<h1>Project cookie has been deleted</h1>");;
-		if (Guid.TryParse(driverId, out var id))
+		if (str == null) return RedirectToPage("/Index");
+        if (Guid.TryParse(driverId, out var id))
             {
             if( NumberOfHours!=null){
                 await ProjectService.AddNewTimeCard(projectId, id, NumberOfHours.Value);
             }
 		}else{
-            return base.Content($"<h1>Please dont play with the cookie</h1>");
+            return RedirectToPage("/Index");
         }
 
         return Page();
