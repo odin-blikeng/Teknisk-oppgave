@@ -20,6 +20,8 @@ public class LoginModel : PageModel
     [Display(Name = "Password")]
     public string? Password { get; set; }
 
+    public string Error { get; set; }
+
     public IActionResult OnGet()
     {
         return Page();
@@ -29,6 +31,14 @@ public class LoginModel : PageModel
     {
         if (DriverName == null || Password == null) return Page();
         var driverId = await ProjectService.CheckDriverCredentials(DriverName, Password);
+        if (driverId == null) return Page();
+        if (driverId == "Driver not found" || driverId == "Incorrect password")
+        {
+            Error = driverId;
+            HttpContext.Session.Clear();
+            return Page();
+        }
+         
         HttpContext.Session.SetString("driverId", driverId);
         return RedirectToPage("/Index");
     }
