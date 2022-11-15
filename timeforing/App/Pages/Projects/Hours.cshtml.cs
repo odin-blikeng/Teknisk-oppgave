@@ -40,7 +40,7 @@ public class HoursModel : PageModel
     {
         // try{
         var str =  HttpContext.Session.GetString("projectId");
-        return RedirectToPage("/Index");
+        if (str == null) return RedirectToPage("/Index");
         if (Guid.TryParse(str, out var projectId))
             {
             Project = await ProjectService.GetOneAsync(projectId);
